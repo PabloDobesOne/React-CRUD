@@ -11,7 +11,8 @@ export class CreateCidades1649257215574 implements MigrationInterface {
                     {
                         name: "CIDADE_ID",
                         type: "integer",
-                        isPrimary: true
+                        isPrimary: true,
+                        isNullable: true
                     },
                     {
                         name: "CIDADE_NOME",

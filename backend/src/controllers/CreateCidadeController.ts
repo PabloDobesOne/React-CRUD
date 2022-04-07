@@ -8,7 +8,7 @@ export class CreateCidadeController {
 
         const service = new CreateCidadeService();
 
-        const result = service.execute({CIDADE_NOME, CIDADE_UF});
+        const result = await service.execute({CIDADE_NOME, CIDADE_UF});
 
         // checando se houve erro na requisição de inserção
         if(result instanceof Error) {

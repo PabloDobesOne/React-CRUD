@@ -8,11 +8,12 @@ import {
 export class Cidade {
     // setando referencia de cada coluna da tabela
     @PrimaryGeneratedColumn("increment")
-    CIDADE_ID: number;
+    public CIDADE_ID: number;
 
     @Column()
     CIDADE_NOME: string;
 
     @Column()
     CIDADE_UF: string;
+
 }

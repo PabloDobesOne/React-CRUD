@@ -10,7 +10,8 @@ export class CreateClientes1649269188861 implements MigrationInterface {
                     {
                         name: "CLI_ID",
                         type: "integer",
-                        isPrimary: true
+                        isPrimary: true,
+                        isGenerated: true
                     },
                     {
                         name: "CLI_NOME",

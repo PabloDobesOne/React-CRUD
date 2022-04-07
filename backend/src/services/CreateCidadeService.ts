@@ -8,11 +8,11 @@ type CidadeRequest = {
 
 export class CreateCidadeService {
     async execute({ CIDADE_NOME, CIDADE_UF } : CidadeRequest): Promise<Cidade | Error> {
-        const repo = getRepository(Cidade);// repository = instancia de uma table
+        const repo = getRepository(Cidade);// repository/entity = instancia de uma table
 
         // checando se cidade já existe
         // SELECT * FROM cidades WHERE CIDADE_NOME = "CIDADE_NOME" LIMIT 1
-        if(await repo.findOne({CIDADE_NOME}))  {
+        if(await repo.findOne({CIDADE_NOME}) &&  await repo.findOne({CIDADE_UF}))  {
             return new Error("Cidade already exists");
         }
 

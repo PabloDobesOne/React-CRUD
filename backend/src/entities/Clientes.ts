@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { Cidade } from './Cidade';
 
 @Entity("clientes")
@@ -9,10 +9,13 @@ export class Cliente {
     @Column()
     CLI_NOME: string;
 
-    @Column()
+    @Column({type: "date"})
     CLI_NASCIDO: Date;
 
+    @Column()
+    CIDADE_ID: number;
+
     @ManyToOne(() => Cidade)// referencia muitos para um (muito cliente de uma cidade)
-    @JoinColumn({name: "CIDADE_ID"})// coluna de referencia na Cidade
-    CIDADE_ID: Cidade;
+    @JoinColumn({name: "CIDADE_ID"})// coluna de referencia na table de clientes
+    CIDADE: Cidade;
 }

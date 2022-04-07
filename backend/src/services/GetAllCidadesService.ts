@@ -5,7 +5,7 @@ import { Cidade } from "../entities/Cidade";
 
 export class GetAllCidadesService {
     async execute() {
-        const repo  = getRepository(Cidade);
+        const repo = getRepository(Cidade);
 
         // pegando todas as cidades
         const cidades = repo.find();

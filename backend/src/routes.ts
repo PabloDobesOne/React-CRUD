@@ -3,6 +3,7 @@ import { CreateCidadeController } from './controllers/CreateCidadeController';
 import { CreateClienteController } from './controllers/CreateClienteController';
 import { DeleteCidadeController } from './controllers/DeleteCidadeController';
 import { DeleteClienteController } from './controllers/DeleteClienteController';
+import { FilterCidadeController } from './controllers/FilterCidadeController';
 import { GetAllCidadesController } from './controllers/GetAllCidadesController';
 import { GetAllClientesController } from './controllers/GetAllClientesController';
 import { GetOneCidadeController } from './controllers/GetOneCidadeController';
@@ -32,6 +33,7 @@ routes.put('/cidades/:CIDADE_ID',
     validatorUpdateCidade,
     new UpdateCidadeController().handle
 );
+routes.get('/cidades/filter', new FilterCidadeController().handle);
 
 
 routes.post('/clientes', 

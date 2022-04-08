@@ -9,4 +9,4 @@ app.use(express.json());
 
 app.use(routes);
 
-app.listen(3000, () => console.log("Server Running on port 3000"))
+app.listen(3333, () => console.log("Server Running on port 3333"))

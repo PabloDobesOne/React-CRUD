@@ -5,7 +5,7 @@ export function createClienteValidatorRules() {
     return [
         body('CLI_NOME').isString().isLength({min:3, max: 50}),
         body('CLI_NASCIDO').isDate(),
-        body('CIDADE_ID').isNumeric().isInt()
+        body('CIDADE_ID').isNumeric().isInt().not().isString()
     ]
 }
 

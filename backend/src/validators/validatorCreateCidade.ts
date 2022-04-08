@@ -4,8 +4,8 @@ import {body, validationResult} from 'express-validator';
 
 export function createCidadeValidationsRules() {
     return [
-        body('CIDADE_NOME').isString().isLength({min: 4, max: 50}),
-        body('CIDADE_UF').isString().isLength({min: 2, max: 2})
+        body('CIDADE_NOME').isString().isLength({min: 4, max: 50}).not().isNumeric(),
+        body('CIDADE_UF').isString().isLength({min: 2, max: 2}).not().isNumeric()
     ]
 }
 

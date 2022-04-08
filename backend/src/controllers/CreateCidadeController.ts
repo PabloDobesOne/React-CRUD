@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { CreateCidadeService } from "../services/CreateCidadeService";
 
-
 export class CreateCidadeController {
     async handle(request: Request, response: Response) {
         const { CIDADE_NOME, CIDADE_UF } = request.body;

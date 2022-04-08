@@ -14,6 +14,6 @@ export class GetOneCidadeController {
             return response.status(400).json(cidade.message);
         }
 
-        return response.json(cidade);
+        return response.status(200).json(cidade);
     }
 }

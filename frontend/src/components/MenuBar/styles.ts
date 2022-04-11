@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { FaBars } from 'react-icons/fa';
 import { darken } from 'polished';
 
 
 export const Container = styled.header`
-    z-index: 999;
+    z-index: 1000;
     position: fixed;
     top: 0;
     left: 0;
@@ -18,11 +17,11 @@ export const Container = styled.header`
     gap: 2rem;
     padding: 0 2rem;
 
-    box-shadow: 0 3px 7px #AAA;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.4);
+
 `;
 
 export const Menu = styled.ul`
-    z-index: -1;
     position: absolute;
     top: 4.1rem;
     left: -20rem;
@@ -30,6 +29,7 @@ export const Menu = styled.ul`
 
     list-style: none;
     background: var(--purple);
+    border-radius: 0 3px 3px 0;
 
     padding: 1rem;
     transition: all .3s ease;
@@ -70,8 +70,12 @@ export const Menu = styled.ul`
 `;
 
 
-export const MenuBars = styled(FaBars)`
+export const MenuBars = styled.div`
     font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     cursor: pointer;
 `;
 

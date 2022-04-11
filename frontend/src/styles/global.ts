@@ -7,16 +7,6 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-
-
-    &::-webkit-scollbar {
-        width: 6px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: var(--purple);
-        border-radius: 3px;
-    }
 }
 
 :root {
@@ -40,6 +30,14 @@ html {
 
 body {
     -webkit-font-smoothing: antialiased;
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+    }
+
 
     button {
         cursor: pointer;
@@ -50,6 +48,5 @@ body {
     }
 
 }
-
 
 `;

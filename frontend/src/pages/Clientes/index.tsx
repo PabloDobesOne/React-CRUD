@@ -1,11 +1,9 @@
 import { MainContainer } from "../../components/MainContainer";
 
-
-
-export function Home() {
+export function Clientes() {
     return (
         <MainContainer>
-            Home Page
+            Clientes
         </MainContainer>
     );
 }

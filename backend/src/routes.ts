@@ -33,7 +33,7 @@ routes.put('/cidades/:CIDADE_ID',
     validatorUpdateCidade,
     new UpdateCidadeController().handle
 );
-routes.get('/cidades/filter', new FilterCidadeController().handle);
+// routes.get('/cidades/filter', new FilterCidadeController().handle);
 
 
 routes.post('/clientes', 

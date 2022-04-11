@@ -12,7 +12,7 @@ export class CreateCidadeService {
 
         // checando se cidade já existe
         // SELECT * FROM cidades WHERE CIDADE_NOME = "CIDADE_NOME" LIMIT 1
-        if(await repo.findOne({CIDADE_NOME}) &&  await repo.findOne({CIDADE_UF}))  {
+        if(await repo.findOne({CIDADE_NOME}) && await repo.findOne({CIDADE_UF}))  {
             return new Error("Cidade already exists");
         }
 

@@ -1,3 +1,5 @@
+import { BrowserRouter } from "react-router-dom"
+import { MenuBar } from "./components/MenuBar"
 import { AppRoutes } from "./routes"
 import { GlobalStyles } from "./styles/global"
 
@@ -5,8 +7,11 @@ function App() {
 
   return (
     <>
-      <GlobalStyles />
-      <AppRoutes />
+      <BrowserRouter>
+        <GlobalStyles />
+        <MenuBar />
+        <AppRoutes />
+      </BrowserRouter>
     </>
   )
 }

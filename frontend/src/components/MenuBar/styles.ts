@@ -34,6 +34,8 @@ export const Menu = styled.ul`
     padding: 1rem;
     transition: all .3s ease;
 
+    box-shadow: 3px 0 7px rgba(0, 0, 0, 0.4);
+
     &.show {
         left: 0;
     }
@@ -76,7 +78,28 @@ export const MenuBars = styled.div`
     align-items: center;
     justify-content: center;
 
+    padding: 0.2rem;
+    border-radius: 3px;
+    background: var(--light-purple);
+
     cursor: pointer;
+    transition: all .3s ease;
+
+    .close-icon {
+        color: var(--white);
+        font-size: 2.5rem;
+    }
+
+    .bars-icon {
+        
+    }
+
+    &:hover {
+        background: var(--white);
+        svg {
+            color: var(--purple);
+        }
+    }
 `;
 
 export const Logo = styled.div`

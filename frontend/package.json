@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mui/base": "^5.0.0-alpha.76",
     "axios": "^0.26.1",
     "polished": "^4.2.2",
     "react": "^17.0.2",

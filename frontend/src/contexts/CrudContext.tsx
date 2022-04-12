@@ -8,16 +8,19 @@ interface CrudContextData {
 
     cidadesData: CidadesData[];
 
-    isModalCidadesOpen: boolean;
-    closeModalCreateCidade: () => void;
-    openModalCreateCidade: () => void;
-
     createCidade: (newCidade: CidadesInput) => Promise<void>;
     deleteCidade: (idCidade: number) => Promise<void>;
     updateCidade: (idCidade: number, updatedCidade: CidadesData) => Promise<void>;
 
+    isModalCidadesOpen: boolean;
+    closeModalCreateCidade: () => void;
+    openModalCreateCidade: () => void;
+
     isModalUpdateCidadesOpen: boolean;
     setIsModalUpdateCidadesOpen: (isModalUpdateCidadesOpen: boolean) => void;
+
+    isAlertModalOpen: boolean;
+    setIsAlertModalOpen: (isAlertModalOpen: boolean) => void;
 
     currentCidade: CidadesData;
     setCurrentCidade: (currentCidade: CidadesData) => void;
@@ -45,7 +48,9 @@ export function CrudProvider({ children }: CrudProviderProps) {
     const [nameLogo, setNameLogo] = useState<string>('React CRUD');
     const [cidadesData, setCidadesData] = useState<CidadesData[]>([]);
     const [isModalCidadesOpen, setIsModalCidadesOpen] = useState<boolean>(false);
-    const [isModalUpdateCidadesOpen, setIsModalUpdateCidadesOpen] = useState<boolean>(true);
+    const [isModalUpdateCidadesOpen, setIsModalUpdateCidadesOpen] = useState<boolean>(false);
+    const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(true);
+
 
     const [currentCidade, setCurrentCidade] = useState<CidadesData>({} as CidadesData);
 
@@ -159,7 +164,9 @@ export function CrudProvider({ children }: CrudProviderProps) {
             isModalUpdateCidadesOpen, 
             setIsModalUpdateCidadesOpen,
             currentCidade,
-            setCurrentCidade
+            setCurrentCidade, 
+            isAlertModalOpen, 
+            setIsAlertModalOpen
         }}>
             {children}
         </CrudContext.Provider>

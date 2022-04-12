@@ -1,5 +1,5 @@
-import { useState } from "react"
 import { BrowserRouter } from "react-router-dom"
+import { AlertModal } from "./components/AlertModal"
 import { MenuBar } from "./components/MenuBar"
 import { NewCreateCidadeModal } from "./components/NewCidadeModal"
 import { UpdateCidadeModal } from "./components/UpdateCidadeModal"
@@ -14,6 +14,7 @@ function App() {
         <GlobalStyles />
         <NewCreateCidadeModal />
         <UpdateCidadeModal />
+        <AlertModal />
         <MenuBar />
         <AppRoutes />
       </BrowserRouter>

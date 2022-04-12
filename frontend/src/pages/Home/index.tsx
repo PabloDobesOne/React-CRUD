@@ -8,8 +8,8 @@ import { useCrud } from "../../contexts/CrudContext";
 
 
 export function Home() {
-    const crudContext = useCrud();
-    crudContext.setNameLogo('React CRUD');
+    const { changeNameLogo } = useCrud();
+    changeNameLogo('React CRUD');
 
     return (
         <MainContainer>

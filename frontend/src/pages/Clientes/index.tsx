@@ -2,8 +2,8 @@ import { MainContainer } from "../../components/MainContainer";
 import { useCrud } from "../../contexts/CrudContext";
 
 export function Clientes() {
-    const crudContext = useCrud();
-    crudContext.setNameLogo('Clientes');
+    const { changeNameLogo } = useCrud();
+    changeNameLogo('Clientes');
 
     return (
         <MainContainer>

@@ -44,6 +44,7 @@ export const InformationContainer = styled.div`
     }
 `;
 
+
 export const TableData = styled.table`
     margin: 2rem 0;
     width: 100%;
@@ -123,10 +124,9 @@ export const TableData = styled.table`
         }
     }
 
-    @media screen and (max-width: 720px) {
+    @media screen and (max-width: 1000px) {
         box-shadow: none;
         border-radius: none;
-
 
         thead {
             display: none;
@@ -166,6 +166,20 @@ export const TableData = styled.table`
             display: block;
             font-weight: bold;
             color: var(--purple);
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        td[data-title="CIDADE"] {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        td[data-title="NOME"] {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
         }
     }
 `;

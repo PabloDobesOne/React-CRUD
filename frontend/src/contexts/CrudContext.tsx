@@ -8,7 +8,6 @@ interface CrudContextData {
     changeNameLogo: (newNameLogo: string) => void;
 
     cidadesData: CidadesData[];
-
     createCidade: (newCidade: CidadesInput) => Promise<void>;
     deleteCidade: (idCidade: number) => Promise<void>;
     updateCidade: (idCidade: number, updatedCidade: CidadesData) => Promise<void>;
@@ -24,10 +23,12 @@ interface CrudContextData {
     actionModalAlert: ActionsModalAlert;
     setActionModalAlert: (actionModalAlert: ActionsModalAlert) => void;
 
-
     currentCidade: CidadesData;
     setCurrentCidade: (currentCidade: CidadesData) => void;
 
+    clientesData: ClientesData[];
+    isModalCreateClienteOpen: boolean;
+    setIsModalCreateClienteOpen: (isModalCreateClienteOpen: boolean) => void;
 }
 
 interface CrudProviderProps {
@@ -42,6 +43,19 @@ interface CidadesData {
 
 type CidadesInput  = Omit<CidadesData, 'CIDADE_ID'>;
 
+interface ClientesData {
+    CLI_ID: number;
+    CLI_NOME: string;
+    CLI_NASCIDO: string;
+    CIDADE_ID: number;
+    CIDADE: {
+        CIDADE_ID: number,
+        CIDADE_NOME: string,
+        CIDADE_UF: string
+    }
+}
+
+
 
 interface ActionsModalAlert {
     actions: 'delete-cidade' | 'delete-cliente',
@@ -52,17 +66,24 @@ interface ActionsModalAlert {
 /* ===== CONTEXT ===== */
 export const CrudContext = createContext<CrudContextData>({} as CrudContextData);
 
+
 /* ===== PROVIDER ===== */
 export function CrudProvider({ children }: CrudProviderProps) {
     const [nameLogo, setNameLogo] = useState<string>('React CRUD');
+    
+    // STATES CIDADES
     const [cidadesData, setCidadesData] = useState<CidadesData[]>([]);
     const [isModalCreateCidadeOpen, setIsModalCreateCidadeOpen] = useState<boolean>(false);
     const [isModalUpdateCidadesOpen, setIsModalUpdateCidadesOpen] = useState<boolean>(false);
     const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false);
     const [actionModalAlert, setActionModalAlert] = useState<ActionsModalAlert>({} as ActionsModalAlert);
- 
-
     const [currentCidade, setCurrentCidade] = useState<CidadesData>({} as CidadesData);
+
+    // STATES CLIENTES
+    const [clientesData, setClientesData] = useState<ClientesData[]>([]);
+    const [isModalCreateClienteOpen, setIsModalCreateClienteOpen] = useState<boolean>(false);
+
+
 
     useEffect(() => {
         async function getCidadesData() {
@@ -72,8 +93,16 @@ export function CrudProvider({ children }: CrudProviderProps) {
                 console.log(error);
             }
         }
-
         getCidadesData();
+
+        async function getClientesData() {
+            try {
+                await api.get<ClientesData[]>('/clientes').then(response => setClientesData(response.data));
+            } catch(error) {
+                console.log(error);
+            }
+        }
+        getClientesData();
 
     }, [])
 
@@ -181,12 +210,16 @@ export function CrudProvider({ children }: CrudProviderProps) {
             isAlertModalOpen, 
             setIsAlertModalOpen,
             actionModalAlert, 
-            setActionModalAlert
+            setActionModalAlert,
+            clientesData,
+            isModalCreateClienteOpen, 
+            setIsModalCreateClienteOpen
         }}>
             {children}
         </CrudContext.Provider>
     );
 }
+
 
 /* ===== CUSTOM HOOK ===== */
 export function useCrud() {

@@ -9,6 +9,7 @@ import { GlobalStyles } from "./styles/global"
 import { ToastContainer } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css';
+import { NewCreateClienteModal } from "./components/NewClienteModal"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <GlobalStyles />
         <ToastContainer />
         <NewCreateCidadeModal />
+        <NewCreateClienteModal />
         <UpdateCidadeModal />
         <AlertModal />
         <MenuBar />

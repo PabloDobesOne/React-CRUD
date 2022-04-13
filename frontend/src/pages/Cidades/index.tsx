@@ -6,10 +6,12 @@ export function Cidades() {
     const { 
         cidadesData, 
         changeNameLogo, 
-        openModalCreateCidade, 
+        setIsModalCreateCidadeOpen, 
         deleteCidade, 
         setIsModalUpdateCidadesOpen,
-        setCurrentCidade
+        setCurrentCidade,
+        setIsAlertModalOpen,
+        setActionModalAlert
     } = useCrud();
 
     changeNameLogo('Cidades')
@@ -22,10 +24,10 @@ export function Cidades() {
                     <button
                         type="button"
                         onClick={() => {
-                            openModalCreateCidade();
+                            setIsModalCreateCidadeOpen(true);
                         }}
                     >
-                        Create
+                        Criar
                     </button>
                 </InformationContainer>
                 <TableData>
@@ -41,10 +43,10 @@ export function Cidades() {
                         {cidadesData.map(cidade => {
                             return (
                                 <tr key={cidade.CIDADE_ID}>
-                                    <td>{cidade.CIDADE_ID}</td>
-                                    <td>{cidade.CIDADE_NOME}</td>
-                                    <td>{cidade.CIDADE_UF}</td>
-                                    <td>
+                                    <td data-title="ID">{cidade.CIDADE_ID}</td>
+                                    <td data-title="NOME">{cidade.CIDADE_NOME}</td>
+                                    <td data-title="UF">{cidade.CIDADE_UF}</td>
+                                    <td data-title="ACTIONS">
                                         <button
                                             onClick={() => {
                                                 setIsModalUpdateCidadesOpen(true)
@@ -58,7 +60,15 @@ export function Cidades() {
                                             Edit
                                         </button>
                                         <button
-                                            onClick={async() => {await deleteCidade(cidade.CIDADE_ID)}}
+                                            onClick={
+                                                () => {
+                                                    setIsAlertModalOpen(true)
+                                                    setActionModalAlert({
+                                                        actions: 'delete-cidade',
+                                                        id: cidade.CIDADE_ID
+                                                    })
+                                                }
+                                            }
                                         >
                                             Del
                                         </button>

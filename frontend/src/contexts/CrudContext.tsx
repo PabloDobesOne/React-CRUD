@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { api } from "../services/api";
 
 /* ===== TIPAGENS ===== */
@@ -12,15 +13,17 @@ interface CrudContextData {
     deleteCidade: (idCidade: number) => Promise<void>;
     updateCidade: (idCidade: number, updatedCidade: CidadesData) => Promise<void>;
 
-    isModalCidadesOpen: boolean;
-    closeModalCreateCidade: () => void;
-    openModalCreateCidade: () => void;
+    isModalCreateCidadeOpen: boolean;
+    setIsModalCreateCidadeOpen: (isModalCreateCidadesOpen: boolean) => void;
 
     isModalUpdateCidadesOpen: boolean;
     setIsModalUpdateCidadesOpen: (isModalUpdateCidadesOpen: boolean) => void;
 
     isAlertModalOpen: boolean;
     setIsAlertModalOpen: (isAlertModalOpen: boolean) => void;
+    actionModalAlert: ActionsModalAlert;
+    setActionModalAlert: (actionModalAlert: ActionsModalAlert) => void;
+
 
     currentCidade: CidadesData;
     setCurrentCidade: (currentCidade: CidadesData) => void;
@@ -40,6 +43,12 @@ interface CidadesData {
 type CidadesInput  = Omit<CidadesData, 'CIDADE_ID'>;
 
 
+interface ActionsModalAlert {
+    actions: 'delete-cidade' | 'delete-cliente',
+    id: number;
+}
+
+
 /* ===== CONTEXT ===== */
 export const CrudContext = createContext<CrudContextData>({} as CrudContextData);
 
@@ -47,10 +56,11 @@ export const CrudContext = createContext<CrudContextData>({} as CrudContextData)
 export function CrudProvider({ children }: CrudProviderProps) {
     const [nameLogo, setNameLogo] = useState<string>('React CRUD');
     const [cidadesData, setCidadesData] = useState<CidadesData[]>([]);
-    const [isModalCidadesOpen, setIsModalCidadesOpen] = useState<boolean>(false);
+    const [isModalCreateCidadeOpen, setIsModalCreateCidadeOpen] = useState<boolean>(false);
     const [isModalUpdateCidadesOpen, setIsModalUpdateCidadesOpen] = useState<boolean>(false);
-    const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(true);
-
+    const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false);
+    const [actionModalAlert, setActionModalAlert] = useState<ActionsModalAlert>({} as ActionsModalAlert);
+ 
 
     const [currentCidade, setCurrentCidade] = useState<CidadesData>({} as CidadesData);
 
@@ -71,14 +81,6 @@ export function CrudProvider({ children }: CrudProviderProps) {
         setNameLogo(newName);
     }
 
-    function openModalCreateCidade() {
-        setIsModalCidadesOpen(true);
-    }
-
-    function closeModalCreateCidade() {
-        setIsModalCidadesOpen(false);
-    }
-
 
     /* ===== HANDLE CIDADES ===== */
 
@@ -92,6 +94,8 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
     async function createCidade(newCidade: CidadesInput) {
         try {
+            newCidade.CIDADE_UF = newCidade.CIDADE_UF.toLocaleUpperCase();
+
             const response = await api.post('/cidades', {
                 ...newCidade
             });
@@ -102,9 +106,11 @@ export function CrudProvider({ children }: CrudProviderProps) {
                 ...cidadesData,
                 cidade
             ])
+
+            toast.success('Cidade criada com sucesso!');
         } catch(error) {
             console.log(error);
-            // coloque o react-tostify aqui
+            toast.error('Erro ao criar cidade!');
         }
         
     }
@@ -121,16 +127,20 @@ export function CrudProvider({ children }: CrudProviderProps) {
                 ])
             }
 
+            toast.success('Cidade deletada com sucesso!');
             
         } catch(error) {
             console.log(error);
-            // coloque o react-tostify aqui
+            toast.error('Erro ao deletar cidade!');
+            
         }
         
     }
 
     async function updateCidade(idCidade: number, updatedCidade: CidadesData) {
         try {
+            updatedCidade.CIDADE_UF = updatedCidade.CIDADE_UF.toLocaleUpperCase();
+            
             await api.put(`/cidades/${idCidade}`, {
                 ...updatedCidade
             });
@@ -139,8 +149,12 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
             console.log('Cidade atualizada')
 
+            toast.success('Cidade atualizada com sucesso!');
+
+
         } catch(error) {
-            console.log();
+            console.log(error);
+            toast.error('Erro ao atualizar cidade!');
         }
     }
 
@@ -155,9 +169,8 @@ export function CrudProvider({ children }: CrudProviderProps) {
             nameLogo,
             changeNameLogo,
             cidadesData,
-            isModalCidadesOpen,
-            closeModalCreateCidade,
-            openModalCreateCidade,
+            isModalCreateCidadeOpen,
+            setIsModalCreateCidadeOpen,
             createCidade,
             deleteCidade, 
             updateCidade,
@@ -166,7 +179,9 @@ export function CrudProvider({ children }: CrudProviderProps) {
             currentCidade,
             setCurrentCidade, 
             isAlertModalOpen, 
-            setIsAlertModalOpen
+            setIsAlertModalOpen,
+            actionModalAlert, 
+            setActionModalAlert
         }}>
             {children}
         </CrudContext.Provider>

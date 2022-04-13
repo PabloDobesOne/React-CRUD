@@ -1,10 +1,28 @@
+import { useState } from 'react';
 import Modal from 'react-modal';
 import { useCrud } from '../../contexts/CrudContext';
 import { Container } from './styles';
 
 
 export function AlertModal() {
-    const { isAlertModalOpen, setIsAlertModalOpen } = useCrud();
+    const { 
+        isAlertModalOpen,
+        setIsAlertModalOpen, 
+        actionModalAlert,
+        deleteCidade
+    } = useCrud();
+
+    
+
+    async function handleActionOptions() {
+        if(actionModalAlert.actions === 'delete-cidade') {
+            await deleteCidade(actionModalAlert.id);
+        }
+        if(actionModalAlert.actions === 'delete-cliente') {
+            //ação de deletar cliente
+        }
+    }
+
 
     return (
         <Modal
@@ -14,8 +32,29 @@ export function AlertModal() {
             className="react-modal-content"
         >
             <Container>
-                Você tem certeza !
-                <button>Sim</button>
+                <h2>
+                    Você tem certeza !
+                </h2>
+
+                <div className="buttons">
+                    <button
+                        type='submit'
+                        className='button__yes'
+                        onClick={() => {
+                            handleActionOptions()
+                            setIsAlertModalOpen(false)
+                        }}
+                    >
+                        Sim
+                    </button>
+                    <button
+                        type='submit'
+                        className='button__not'
+                        onClick={() => {setIsAlertModalOpen(false)}}
+                    >
+                        Não
+                    </button>
+                </div>
             </Container>
         </Modal>
     );

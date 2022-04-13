@@ -13,8 +13,15 @@ export const GlobalStyles = createGlobalStyle`
     --purple: #8257e6;
     --white: #fff;
     --light-purple: #807DCB;
+
+    --red: #e52e4d;
+    --green: #33cc95;
     
+    --gray-400: #d7d7d7;
+
     --blue-500: #3F51B5;
+
+    --black-900: #000;
     --black-500: #121214;
 }
 
@@ -70,6 +77,7 @@ body {
 .react-modal-content {
     width: 100%;
     max-width: 576px;
+    margin: 0 1rem;
     background: var(--white);
 
     padding: 3rem;

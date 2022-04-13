@@ -4,10 +4,13 @@ import { useCrud } from '../../contexts/CrudContext';
 import { Container } from './styles';
 
 export function UpdateCidadeModal() {
-    const {isModalUpdateCidadesOpen, setIsModalUpdateCidadesOpen, updateCidade, currentCidade, setCurrentCidade} = useCrud();
-
-    // const [nameCidade, setNameCidade] = useState('');
-    // const [ufCidade, setUfCidade] = useState('');
+    const {
+        isModalUpdateCidadesOpen,
+        setIsModalUpdateCidadesOpen,
+        updateCidade, 
+        currentCidade, 
+        setCurrentCidade
+    } = useCrud();
 
     async function handleUpdateCidade(event: FormEvent) {
         event.preventDefault();

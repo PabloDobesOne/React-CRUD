@@ -11,7 +11,7 @@ interface NewCidadesModal {
 Modal.setAppElement('#root')
 
 export function NewCreateCidadeModal() {
-   const { isModalCidadesOpen, closeModalCreateCidade, createCidade } = useCrud();
+   const { isModalCreateCidadeOpen, setIsModalCreateCidadeOpen, createCidade } = useCrud();
 
    const [nameCidade, setNameCidade] = useState('');
    const [ufCidade, setUfCidade] = useState('');
@@ -28,13 +28,13 @@ export function NewCreateCidadeModal() {
         });
 
         console.log('Cidade Criada');
-        closeModalCreateCidade();
+        setIsModalCreateCidadeOpen(false);
     }
 
     return (
         <Modal
-            isOpen={isModalCidadesOpen}
-            onRequestClose={closeModalCreateCidade}
+            isOpen={isModalCreateCidadeOpen}
+            onRequestClose={() => {setIsModalCreateCidadeOpen(false)}}
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >

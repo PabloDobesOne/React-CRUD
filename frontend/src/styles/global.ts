@@ -84,6 +84,9 @@ body {
     position: relative;
     border-radius: 0.24rem;
 
+    @media screen and (max-width: 500px){
+        padding: 1.5rem;
+    }
 }
 `;
 

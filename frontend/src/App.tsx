@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css';
 import { NewCreateClienteModal } from "./components/NewClienteModal"
+import { UpdateClienteModal } from "./components/UpdateClienteModal"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <NewCreateCidadeModal />
         <NewCreateClienteModal />
         <UpdateCidadeModal />
+        <UpdateClienteModal />
         <AlertModal />
         <MenuBar />
         <AppRoutes />

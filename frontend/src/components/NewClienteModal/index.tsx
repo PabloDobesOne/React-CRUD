@@ -11,13 +11,29 @@ interface NewCidadesModal {
 Modal.setAppElement('#root')
 
 export function NewCreateClienteModal() {
-   const { isModalCreateClienteOpen, setIsModalCreateClienteOpen, createCidade } = useCrud();
+   const { 
+       isModalCreateClienteOpen, 
+       setIsModalCreateClienteOpen, 
+       createCliente 
+    } = useCrud();
 
-   const [nameCidade, setNameCidade] = useState('');
-   const [ufCidade, setUfCidade] = useState('');
+   const [nameCliente, setNameCliente] = useState('');
+   const [birthCliente, setBirthCliente] = useState('');
+   const [idCidade, setIdCidade] = useState<number>(0);
 
-    async function handleCreateNewCidade(event: FormEvent) {
+
+    async function handleCreateNewCliente(event: FormEvent) {
         event.preventDefault();
+
+        await createCliente({
+            CLI_NOME: nameCliente,
+            CLI_NASCIDO: birthCliente,
+            CIDADE_ID: idCidade
+        })
+
+        setNameCliente('');
+        setBirthCliente('');
+        setIdCidade(0);
 
         console.log('Cliente Criado');
         setIsModalCreateClienteOpen(false);
@@ -30,25 +46,37 @@ export function NewCreateClienteModal() {
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
-            <Container onSubmit={handleCreateNewCidade}>
+            <Container onSubmit={handleCreateNewCliente}>
                 <h2>Cadastrar cliente</h2>
                 <input 
                     type="text" 
                     placeholder='Nome do cliente'
-                    value={nameCidade}
-                    onChange={(event) => setNameCidade(event.target.value)} 
+                    title='Nome do cliente'
+                    value={nameCliente}
+                    onChange={(event) => setNameCliente(event.target.value)} 
                     required
                     minLength={3}
                     maxLength={50}
+                    pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$"
                 />
                 <input 
-                    type="text" 
-                    placeholder='UF do cliente'
-                    value={ufCidade}
-                    onChange={(event) => setUfCidade(event.target.value)} 
+                    type="date"
+                    placeholder='Data de nascimento'
+                    title='Data de nascimento'
+                    value={birthCliente}
+                    onChange={(event) => setBirthCliente(event.target.value)} 
                     required
-                    minLength={2}
-                    maxLength={2}
+                    minLength={10}
+                    maxLength={10}
+                />
+                <input 
+                    type="number" 
+                    placeholder='ID da cidade'
+                    title='ID da cidade'
+                    value={idCidade}
+                    onChange={(event) => setIdCidade(Number(event.target.value))} 
+                    required
+                    maxLength={10}
                 />
                 
                 <button type="submit">

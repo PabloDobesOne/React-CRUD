@@ -8,27 +8,36 @@ interface CrudContextData {
     changeNameLogo: (newNameLogo: string) => void;
 
     cidadesData: CidadesData[];
+    clientesData: ClientesData[];
+
     createCidade: (newCidade: CidadesInput) => Promise<void>;
     deleteCidade: (idCidade: number) => Promise<void>;
     updateCidade: (idCidade: number, updatedCidade: CidadesData) => Promise<void>;
 
+    createCliente: (newCliente: ClientesInput) => Promise<void>;
+    updateCliente: (idCliente: number, updatedCliente: ClientesInput) => Promise<void>;
+    deleteCliente: (idCliente: number) => Promise<void>;
+
     isModalCreateCidadeOpen: boolean;
     setIsModalCreateCidadeOpen: (isModalCreateCidadesOpen: boolean) => void;
+    isModalCreateClienteOpen: boolean;
+    setIsModalCreateClienteOpen: (isModalCreateClienteOpen: boolean) => void;
 
     isModalUpdateCidadesOpen: boolean;
     setIsModalUpdateCidadesOpen: (isModalUpdateCidadesOpen: boolean) => void;
+    isModalUpdateClientesOpen: boolean;
+    setIsModalUpdateClientesOpen: (isModalUpdateClientesOpen: boolean) => void;
+
+    currentCidade: CidadesData;
+    setCurrentCidade: (currentCidade: CidadesData) => void;
+
+    currentCliente: ClientesData;
+    setCurrentCliente: (currentCliente: ClientesData) => void;
 
     isAlertModalOpen: boolean;
     setIsAlertModalOpen: (isAlertModalOpen: boolean) => void;
     actionModalAlert: ActionsModalAlert;
     setActionModalAlert: (actionModalAlert: ActionsModalAlert) => void;
-
-    currentCidade: CidadesData;
-    setCurrentCidade: (currentCidade: CidadesData) => void;
-
-    clientesData: ClientesData[];
-    isModalCreateClienteOpen: boolean;
-    setIsModalCreateClienteOpen: (isModalCreateClienteOpen: boolean) => void;
 }
 
 interface CrudProviderProps {
@@ -54,6 +63,8 @@ interface ClientesData {
         CIDADE_UF: string
     }
 }
+
+type ClientesInput = Omit<ClientesData, 'CLI_ID' | 'CIDADE'>;
 
 
 
@@ -82,28 +93,13 @@ export function CrudProvider({ children }: CrudProviderProps) {
     // STATES CLIENTES
     const [clientesData, setClientesData] = useState<ClientesData[]>([]);
     const [isModalCreateClienteOpen, setIsModalCreateClienteOpen] = useState<boolean>(false);
-
+    const [isModalUpdateClientesOpen, setIsModalUpdateClientesOpen] = useState<boolean>(false);
+    const [currentCliente, setCurrentCliente] = useState<ClientesData>({} as ClientesData);
 
 
     useEffect(() => {
-        async function getCidadesData() {
-            try {
-                await api.get<CidadesData[]>('/cidades').then(response => setCidadesData(response.data));
-            } catch(error) {
-                console.log(error);
-            }
-        }
         getCidadesData();
-
-        async function getClientesData() {
-            try {
-                await api.get<ClientesData[]>('/clientes').then(response => setClientesData(response.data));
-            } catch(error) {
-                console.log(error);
-            }
-        }
         getClientesData();
-
     }, [])
 
     function changeNameLogo(newName: string) {
@@ -190,30 +186,101 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
     /* ===== HANDLE CLIENTES ===== */
 
-    
+    async function getClientesData() {
+        try {
+            await api.get<ClientesData[]>('/clientes').then(response => setClientesData(response.data));
+        } catch(error) {
+            console.log(error);
+        }
+    }
 
+    async function createCliente(newCliente: ClientesInput) {
+        try {
+            const response = await api.post('/clientes', {
+                ...newCliente
+            });
+
+            const cliente = response.data;
+
+            setCidadesData([
+                ...clientesData,
+                cliente
+            ]);
+
+            toast.success('Cliente criado com sucesso!');
+
+        } catch(error) {
+            console.log(error)
+            toast.error(`Erro ao criar cliente!`);
+        }
+    }
+
+    async function updateCliente(idCliente: number, updatedCliente: ClientesInput) {
+        try {
+            await api.put(`/clientes/${idCliente}`, {
+                ...updatedCliente
+            });
+
+            await getClientesData();
+
+            console.log('Cliente atualizado');
+
+            toast.success('Cliente atualizado com sucesso');
+
+        } catch(error) {
+            console.log(error);
+            toast.error('Erro ao atualizar cliente');
+        }
+    }
+
+    async function deleteCliente(idCliente: number) {
+        try {
+            await api.delete(`/clientes/${idCliente}`);
+
+            const clientesUpdated = clientesData.filter(cliente => cliente.CLI_ID !== idCliente)
+    
+            if(clientesUpdated) {
+                setClientesData([
+                    ...clientesUpdated
+                ])
+            }
+
+            toast.success('Cliente deletado com sucesso!');
+
+        } catch(error) {
+            console.log(error)
+            toast.error("Erro ao deletar cliente");
+        }
+    }
 
     return (
         <CrudContext.Provider value={{
             nameLogo,
             changeNameLogo,
             cidadesData,
-            isModalCreateCidadeOpen,
-            setIsModalCreateCidadeOpen,
+            clientesData,
             createCidade,
             deleteCidade, 
             updateCidade,
+            createCliente,
+            updateCliente,
+            deleteCliente,
+            isModalCreateCidadeOpen,
+            setIsModalCreateCidadeOpen,
+            isModalCreateClienteOpen, 
+            setIsModalCreateClienteOpen,
             isModalUpdateCidadesOpen, 
             setIsModalUpdateCidadesOpen,
+            isModalUpdateClientesOpen, 
+            setIsModalUpdateClientesOpen,
             currentCidade,
             setCurrentCidade, 
+            currentCliente,
+            setCurrentCliente,
             isAlertModalOpen, 
             setIsAlertModalOpen,
             actionModalAlert, 
-            setActionModalAlert,
-            clientesData,
-            isModalCreateClienteOpen, 
-            setIsModalCreateClienteOpen
+            setActionModalAlert
         }}>
             {children}
         </CrudContext.Provider>

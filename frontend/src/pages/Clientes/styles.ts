@@ -10,6 +10,7 @@ export const Container = styled.div`
 
     @media screen and (max-width: 500px){
         margin: 7rem 1rem 1rem;
+        padding: 1rem;
     }
 `;
 
@@ -181,5 +182,95 @@ export const TableData = styled.table`
             flex-direction: column;
             gap: 0.7rem;
         }
+    }
+`;
+
+export const FilterTable = styled.div`
+    margin-top: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .inputs {
+        select {
+            padding: 0 1rem;
+            text-align: center;
+            height: 2.5rem;
+            border-radius: 0.25rem 0 0 0.25rem;
+            border: 1px solid var(--gray-400);
+            border-right: none;
+            font-weight: 400;
+            font-size: 1rem; 
+
+            &:focus {
+                color: var(--purple);
+                border: none;
+                outline: 2px solid var(--purple);
+            }
+        }
+
+        input[type="text"] {
+            padding: 0 1rem;
+            height: 2.5rem;
+            max-width: 8rem;
+            border-radius: 0 0.25rem 0.25rem 0;
+            border: 1px solid var(--gray-400);
+            font-weight: 400;
+            font-size: 1rem; 
+
+            &:focus {
+                color: var(--purple);
+                border: none;
+                outline: 2px solid var(--purple);
+            }
+        }
+
+        @media screen and (max-width: 400) {
+            input {
+                max-width: 7rem;
+            }
+            
+        }
+    }
+
+    .buttons {
+        display: flex;
+        gap: 1rem;
+
+        button {
+            height: 2.2rem;
+            padding: 0 1rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--purple);
+
+            border: none;
+            border-radius: 3px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+
+            transition: all .2s ease;
+
+            &:hover {
+                transform: translateY(-3px);
+            }
+        }
+    }
+
+`;
+
+export const MessageTableEmpty = styled.tr`
+    font-weight: 500;
+    padding: 1rem 2em;
+    text-transform: uppercase;
+    line-height: 4rem;
+
+    /* background: blue; */
+    text-align: center;
+
+    td {  
+        
     }
 `;

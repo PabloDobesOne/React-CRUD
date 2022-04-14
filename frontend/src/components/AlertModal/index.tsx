@@ -9,7 +9,8 @@ export function AlertModal() {
         isAlertModalOpen,
         setIsAlertModalOpen, 
         actionModalAlert,
-        deleteCidade
+        deleteCidade,
+        deleteCliente
     } = useCrud();
 
     
@@ -19,7 +20,7 @@ export function AlertModal() {
             await deleteCidade(actionModalAlert.id);
         }
         if(actionModalAlert.actions === 'delete-cliente') {
-            //ação de deletar cliente
+            await deleteCliente(actionModalAlert.id)
         }
     }
 

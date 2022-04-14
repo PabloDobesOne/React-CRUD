@@ -27,6 +27,9 @@ export function NewCreateCidadeModal() {
             CIDADE_UF: ufCidade
         });
 
+        setNameCidade('');
+        setUfCidade('');
+
         console.log('Cidade Criada');
         setIsModalCreateCidadeOpen(false);
     }
@@ -43,20 +46,24 @@ export function NewCreateCidadeModal() {
                 <input 
                     type="text" 
                     placeholder='Nome da cidade'
+                    title='Nome da cidade'
                     value={nameCidade}
                     onChange={(event) => setNameCidade(event.target.value)} 
                     required
                     minLength={3}
                     maxLength={50}
+                    pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$"
                 />
                 <input 
                     type="text" 
                     placeholder='UF da cidade'
+                    title='UF da cidade'
                     value={ufCidade}
                     onChange={(event) => setUfCidade(event.target.value)} 
                     required
                     minLength={2}
                     maxLength={2}
+                    pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$"
                 />
                 
                 <button type="submit">

@@ -4,13 +4,15 @@ import { Container } from "./styles";
 import { FaCity } from 'react-icons/fa';
 import { BsFillPeopleFill } from 'react-icons/bs';
 import { useCrud } from "../../contexts/CrudContext";
+import { useEffect } from "react";
 
 
 
 export function Home() {
     const { changeNameLogo } = useCrud();
-    changeNameLogo('React CRUD');
 
+    useEffect(() => {changeNameLogo('React CRUD')}, []);
+    
     return (
         <MainContainer>
             <Container>

@@ -6,21 +6,21 @@ import { IoMdClose } from 'react-icons/io';
 
 
 export function AlertModal() {
-    const { 
+    const {
         isAlertModalOpen,
-        setIsAlertModalOpen, 
+        setIsAlertModalOpen,
         actionModalAlert,
         deleteCidade,
         deleteCliente
     } = useCrud();
 
-    
+
 
     async function handleActionOptions() {
-        if(actionModalAlert.actions === 'delete-cidade') {
+        if (actionModalAlert.actions === 'delete-cidade') {
             await deleteCidade(actionModalAlert.id);
         }
-        if(actionModalAlert.actions === 'delete-cliente') {
+        if (actionModalAlert.actions === 'delete-cliente') {
             await deleteCliente(actionModalAlert.id)
         }
     }
@@ -29,7 +29,7 @@ export function AlertModal() {
     return (
         <Modal
             isOpen={isAlertModalOpen}
-            onRequestClose={() => {setIsAlertModalOpen(false)}}
+            onRequestClose={() => { setIsAlertModalOpen(false) }}
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
@@ -59,7 +59,7 @@ export function AlertModal() {
                     <button
                         type='submit'
                         className='button__not'
-                        onClick={() => {setIsAlertModalOpen(false)}}
+                        onClick={() => { setIsAlertModalOpen(false) }}
                     >
                         Não
                     </button>

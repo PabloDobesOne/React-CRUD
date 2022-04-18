@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { MainContainer } from "../../components/MainContainer";
 import { useCrud } from "../../contexts/CrudContext";
 import { listFiltersCidade, listFiltersClientes } from "../../data/filters";
+import { formateDate } from "../../utils/formateDate";
 import { Container, FilterTable, InformationContainer, MessageTableEmpty, TableData } from "./styles";
+
+import { FaArrowDown } from 'react-icons/fa';
 
 export function Clientes() {
     const { 
@@ -74,12 +77,15 @@ export function Clientes() {
                 </InformationContainer>
                 <FilterTable>
                         <div className="inputs">
-                            <select value={filterOption} onChange={event => setFilterOption(Number(event.target.value))}>
-                                {listFiltersClientes.map((filter) => {
-                                        return (<option value={filter.id} key={filter.id}>{filter.name}</option>)                                                                  
-                                    }                                                                                                                                                    
-                                )}
-                            </select>
+                            <div className="custom-select">
+                                <select value={filterOption} onChange={event => setFilterOption(Number(event.target.value))}>
+                                    {listFiltersClientes.map((filter) => {
+                                            return (<option value={filter.id} key={filter.id}>{filter.name}</option>)                                                                  
+                                        }                                                                                                                                                    
+                                    )}
+                                </select>
+                                <FaArrowDown />
+                            </div>
                             <input
                                 type="text"
                                 placeholder="Valor de filtro"
@@ -119,12 +125,16 @@ export function Clientes() {
                             ?
                             undefined
                             :
-                            clientes.map((cliente, index) => {
+                            clientes.map((cliente, index) => {                                                         
                                 return (
                                     <tr key={index}>
                                         <td data-title="ID">{cliente.CLI_ID}</td>
                                         <td data-title="NOME">{cliente.CLI_NOME}</td>
-                                        <td data-title="NASCIDO">{cliente.CLI_NASCIDO}</td>
+                                        <td data-title="NASCIDO">
+                                            {
+                                               formateDate(cliente.CLI_NASCIDO)                                              
+                                            }
+                                        </td>
                                         <td data-title="CIDADE">{cliente.CIDADE.CIDADE_NOME}</td>
                                         <td data-title="UF">{cliente.CIDADE.CIDADE_UF}</td>
                                         <td data-title="ACTIONS">

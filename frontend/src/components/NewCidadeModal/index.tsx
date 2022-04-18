@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
 import Modal from 'react-modal';
 import { useCrud } from '../../contexts/CrudContext';
 import { Container } from './styles';
@@ -41,6 +42,14 @@ export function NewCreateCidadeModal() {
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
+            <button
+                type='button'
+                onClick={() => {setIsModalCreateCidadeOpen(false)}}
+                className="react-modal-close"
+            >
+                <IoMdClose title='Fechar modal'/>
+            </button>
+
             <Container onSubmit={handleCreateNewCidade}>
                 <h2>Cadastrar cidade</h2>
                 <input 

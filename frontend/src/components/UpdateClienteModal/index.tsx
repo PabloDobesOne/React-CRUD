@@ -1,7 +1,11 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
+import { FaArrowDown } from 'react-icons/fa';
+import { IoMdClose } from 'react-icons/io';
 import Modal from 'react-modal';
 import { useCrud } from '../../contexts/CrudContext';
 import { Container } from './styles';
+
+import { CustomSelect } from './styles';
 
 export function UpdateClienteModal() {
     const {
@@ -9,8 +13,10 @@ export function UpdateClienteModal() {
         setIsModalUpdateClientesOpen,
         updateCliente, 
         currentCliente, 
-        setCurrentCliente
+        setCurrentCliente,
+        cidadesData
     } = useCrud();
+
 
     async function handleUpdateCliente(event: FormEvent) {
         event.preventDefault();
@@ -27,6 +33,14 @@ export function UpdateClienteModal() {
             overlayClassName="react-modal-overlay "
             className="react-modal-content"
         >
+            <button
+                type='button'
+                onClick={() => {setIsModalUpdateClientesOpen(false)}}
+                className="react-modal-close"
+            >
+                <IoMdClose title='Fechar modal'/>
+            </button>
+
             <Container onSubmit={handleUpdateCliente}>
                 <h2>Atualizar cliente</h2>
                 <input 
@@ -46,8 +60,8 @@ export function UpdateClienteModal() {
 
                 <input 
                     type="date" 
-                    placeholder='Data de nascimento'
-                    title='Data de nascimento'
+                    placeholder='Data de nascimento (mm/dd/yyyy)'
+                    title='Data de nascimento (mm/dd/yyyy)'
                     value={currentCliente.CLI_NASCIDO}
                     onChange={(event) => setCurrentCliente({
                         ...currentCliente,
@@ -58,19 +72,28 @@ export function UpdateClienteModal() {
                     maxLength={10}
                 />
 
-                <input 
-                    type="number"
-                    placeholder='ID da cidade'
-                    title='ID da cidade'
-                    value={currentCliente.CIDADE_ID}
-                    onChange={(event) => setCurrentCliente({
-                        ...currentCliente,
-                        CIDADE_ID: Number(event.target.value)
-                    })}
-                    required
-                    minLength={1}
-                    maxLength={10}
-                />
+                <CustomSelect>
+                    <select 
+                        value={currentCliente.CIDADE_ID} 
+                        onChange={event => setCurrentCliente({
+                            ...currentCliente,
+                            CIDADE_ID: Number(event.target.value)
+                        })}
+                        title="Cidade do cliente"
+                    >
+                        {cidadesData.map((cidade) => {
+                                return (
+                                    <option value={cidade.CIDADE_ID} key={cidade.CIDADE_ID}>
+                                        {cidade.CIDADE_NOME} - {cidade.CIDADE_UF}
+                                    </option>
+                                )                                                                  
+                            }                                                                                                                                                    
+                        )}
+                    </select>
+                    <FaArrowDown />
+                </CustomSelect>
+
+
                 
                 <button type="submit">
                     Atualizar

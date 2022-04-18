@@ -24,7 +24,7 @@ export const Container = styled.header`
 export const Menu = styled.ul`
     position: absolute;
     top: 4.1rem;
-    left: -20rem;
+    left: -35rem;
     height: 100vh;
 
     list-style: none;
@@ -67,6 +67,14 @@ export const Menu = styled.ul`
             background: var(--white);
             color: var(--purple);
             transform: translateY(-3px);
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 100%;
+
+        li {
+            width: 100%;
         }
     }
 `;

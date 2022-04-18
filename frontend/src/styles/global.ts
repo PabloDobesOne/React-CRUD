@@ -88,5 +88,24 @@ body {
         padding: 1.5rem;
     }
 }
+
+.react-modal-close {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    border: 0;
+    background: transparent;
+
+    transition: filter .2s ease;
+
+    &:hover {
+        filter: brightness(0.8);
+    }
+
+    svg {
+        font-size: 1.5rem;
+    }
+}
+
 `;
 

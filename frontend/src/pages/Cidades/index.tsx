@@ -4,6 +4,8 @@ import { useCrud } from "../../contexts/CrudContext";
 import { listFiltersCidade } from "../../data/filters";
 import { Container, FilterTable, InformationContainer, MessageTableEmpty, TableData } from "./styles";
 
+import { FaArrowDown } from 'react-icons/fa';
+
 export function Cidades() {
     const { 
         cidadesData, 
@@ -71,12 +73,15 @@ export function Cidades() {
                 </InformationContainer>
                 <FilterTable>
                         <div className="inputs">
-                            <select value={filterOption} onChange={event => setFilterOption(Number(event.target.value))}>
-                                {listFiltersCidade.map((filter) => {
-                                        return (<option value={filter.id} key={filter.id}>{filter.name}</option>)                                                                  
-                                    }                                                                                                                                                    
-                                )}
-                            </select>
+                            <div className="custom-select">
+                                <select value={filterOption} onChange={event => setFilterOption(Number(event.target.value))}>
+                                    {listFiltersCidade.map((filter) => {
+                                            return (<option value={filter.id} key={filter.id}>{filter.name}</option>)                                                                  
+                                        }                                                                                                                                                    
+                                    )}
+                                </select>
+                                <FaArrowDown />
+                            </div>
                             <input
                                 type="text"
                                 placeholder="Valor de filtro"

@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
 import Modal from 'react-modal';
 import { useCrud } from '../../contexts/CrudContext';
 import { Container } from './styles';
@@ -27,6 +28,14 @@ export function UpdateCidadeModal() {
             overlayClassName="react-modal-overlay "
             className="react-modal-content"
         >
+            <button
+                type='button'
+                onClick={() => {setIsModalUpdateCidadesOpen(false)}}
+                className="react-modal-close"
+            >
+                <IoMdClose title='Fechar modal'/>
+            </button>
+            
             <Container onSubmit={handleUpdateCidade}>
                 <h2>Atualizar cidade</h2>
                 <input 

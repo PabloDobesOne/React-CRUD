@@ -9,6 +9,7 @@ interface CrudContextData {
 
     cidadesData: CidadesData[];
     clientesData: ClientesData[];
+    
 
     createCidade: (newCidade: CidadesInput) => Promise<void>;
     deleteCidade: (idCidade: number) => Promise<void>;
@@ -98,8 +99,11 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
 
     useEffect(() => {
-        getCidadesData();
-        getClientesData();
+        async function getDatas() {
+            await getCidadesData();
+            await getClientesData();
+        }
+        getDatas();  
     }, [])
 
     function changeNameLogo(newName: string) {
@@ -119,29 +123,34 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
     async function createCidade(newCidade: CidadesInput) {
         try {
+            const cidadeAlreadyExists = 
+                cidadesData.find(cidade => cidade.CIDADE_NOME.toLocaleUpperCase() === newCidade.CIDADE_NOME.toLocaleUpperCase()) && 
+                cidadesData.find(cidade => cidade.CIDADE_UF.toLocaleUpperCase() === newCidade.CIDADE_UF.toLocaleUpperCase());
+
+            if (cidadeAlreadyExists) throw new Error("Erro: cidade já cadastrada");
+
             newCidade.CIDADE_UF = newCidade.CIDADE_UF.toLocaleUpperCase();
 
-            const response = await api.post('/cidades', {
+            await api.post('/cidades', {
                 ...newCidade
             });
-    
-            const cidade = response.data;
-    
-            setCidadesData([
-                ...cidadesData,
-                cidade
-            ])
+
+            await getCidadesData();
 
             toast.success('Cidade criada com sucesso!');
-        } catch(error) {
+        } catch(error:any) {
             console.log(error);
-            toast.error('Erro ao criar cidade!');
+            toast.error(error.message || 'Erro ao criar cidade!');
         }
         
     }
 
     async function deleteCidade(idCidade: number) {
         try {
+            const cidadeHasClienteIndexed = clientesData.find(cliente => cliente.CIDADE_ID === idCidade);
+
+            if (cidadeHasClienteIndexed) throw new Error("Erro: cidade possui clientes indexados");
+
             await api.delete(`/cidades/${idCidade}`);
             
             const cidadesUpdated = cidadesData.filter(cidade => cidade.CIDADE_ID !== idCidade)
@@ -154,9 +163,9 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
             toast.success('Cidade deletada com sucesso!');
             
-        } catch(error) {
+        } catch(error: any) {
             console.log(error);
-            toast.error('Erro ao deletar cidade!');
+            toast.error(error.message || 'Erro ao deletar cidade!');
             
         }
         
@@ -164,6 +173,13 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
     async function updateCidade(idCidade: number, updatedCidade: CidadesData) {
         try {
+
+            const cidadeAlreadyExists = 
+            cidadesData.find(cidade => cidade.CIDADE_NOME.toLocaleUpperCase() === updatedCidade.CIDADE_NOME.toLocaleUpperCase()) && 
+            cidadesData.find(cidade => cidade.CIDADE_UF.toLocaleUpperCase() === updatedCidade.CIDADE_UF.toLocaleUpperCase());
+
+            if (cidadeAlreadyExists) throw new Error("Erro: cidade já cadastrada");
+
             updatedCidade.CIDADE_UF = updatedCidade.CIDADE_UF.toLocaleUpperCase();
             
             await api.put(`/cidades/${idCidade}`, {
@@ -177,9 +193,9 @@ export function CrudProvider({ children }: CrudProviderProps) {
             toast.success('Cidade atualizada com sucesso!');
 
 
-        } catch(error) {
+        } catch(error: any) {
             console.log(error);
-            toast.error('Erro ao atualizar cidade!');
+            toast.error(error.message || 'Erro ao atualizar cidade!');
         }
     }
 
@@ -196,16 +212,11 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
     async function createCliente(newCliente: ClientesInput) {
         try {
-            const response = await api.post('/clientes', {
+            await api.post('/clientes', {
                 ...newCliente
             });
 
-            const cliente = response.data;
-
-            setCidadesData([
-                ...clientesData,
-                cliente
-            ]);
+            await getClientesData();
 
             toast.success('Cliente criado com sucesso!');
 

@@ -1,4 +1,3 @@
-
 export const listFiltersCidade = [
     {id: 1, name: 'ID'},
     {id: 2, name: 'CIDADE'},

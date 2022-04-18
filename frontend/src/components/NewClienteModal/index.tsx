@@ -1,12 +1,12 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
 import Modal from 'react-modal';
 import { useCrud } from '../../contexts/CrudContext';
-import { Container } from './styles';
+import { Container, CustomSelect } from './styles';
 
-interface NewCidadesModal {
-    isOpen: boolean;
-    onRequestClose: () => void;
-}
+import { FaArrowDown } from 'react-icons/fa';
+import { api } from '../../services/api';
+
 
 Modal.setAppElement('#root')
 
@@ -14,13 +14,25 @@ export function NewCreateClienteModal() {
    const { 
        isModalCreateClienteOpen, 
        setIsModalCreateClienteOpen, 
-       createCliente 
+       createCliente,
+       cidadesData
     } = useCrud();
 
-   const [nameCliente, setNameCliente] = useState('');
-   const [birthCliente, setBirthCliente] = useState('');
-   const [idCidade, setIdCidade] = useState<number>(0);
+    const [nameCliente, setNameCliente] = useState('');
+    const [birthCliente, setBirthCliente] = useState('');
+    const [idCidade, setIdCidade] = useState(0);
 
+    useEffect(() => {
+        async function loadData() {
+            try {
+                await api.get('/cidades').then(response => setIdCidade(response.data[0].CIDADE_ID));
+                console.log(idCidade)
+            } catch(error) {
+                console.log(error);
+            }
+        }
+        loadData();
+    }, [cidadesData]);
 
     async function handleCreateNewCliente(event: FormEvent) {
         event.preventDefault();
@@ -33,7 +45,7 @@ export function NewCreateClienteModal() {
 
         setNameCliente('');
         setBirthCliente('');
-        setIdCidade(0);
+        setIdCidade(cidadesData[0].CIDADE_ID);
 
         console.log('Cliente Criado');
         setIsModalCreateClienteOpen(false);
@@ -46,6 +58,14 @@ export function NewCreateClienteModal() {
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
+            <button
+                type='button'
+                onClick={() => {setIsModalCreateClienteOpen(false)}}
+                className="react-modal-close"
+            >
+                <IoMdClose title='Fechar modal'/>
+            </button>
+            
             <Container onSubmit={handleCreateNewCliente}>
                 <h2>Cadastrar cliente</h2>
                 <input 
@@ -61,23 +81,34 @@ export function NewCreateClienteModal() {
                 />
                 <input 
                     type="date"
-                    placeholder='Data de nascimento'
-                    title='Data de nascimento'
+                    placeholder='Data de nascimento (mm/dd/yyyy)'
+                    title='Data de nascimento (mm/dd/yyyy)'
                     value={birthCliente}
-                    onChange={(event) => setBirthCliente(event.target.value)} 
+                    onChange={(event) => {
+                        setBirthCliente(event.target.value)
+                    }} 
                     required
                     minLength={10}
                     maxLength={10}
                 />
-                <input 
-                    type="number" 
-                    placeholder='ID da cidade'
-                    title='ID da cidade'
-                    value={idCidade}
-                    onChange={(event) => setIdCidade(Number(event.target.value))} 
-                    required
-                    maxLength={10}
-                />
+
+                <CustomSelect>
+                    <select
+                        value={idCidade} 
+                        onChange={event => setIdCidade(Number(event.target.value))}
+                        title="Cidade do cliente"
+                    >
+                        {cidadesData.map((cidade) => {
+                                return (
+                                    <option value={cidade.CIDADE_ID} key={cidade.CIDADE_ID}>
+                                        {cidade.CIDADE_NOME} - {cidade.CIDADE_UF}
+                                    </option>
+                                )                                                                  
+                            }                                                                                                                                                    
+                        )}
+                    </select>
+                    <FaArrowDown />
+                </CustomSelect>
                 
                 <button type="submit">
                     Cadastrar

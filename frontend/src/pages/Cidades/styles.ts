@@ -180,20 +180,41 @@ export const FilterTable = styled.div`
     gap: 1rem;
 
     .inputs {
-        select {
-            padding: 0 1rem;
-            text-align: center;
-            height: 2.5rem;
-            border-radius: 0.25rem 0 0 0.25rem;
-            border: 1px solid var(--gray-400);
-            border-right: none;
-            font-weight: 400;
-            font-size: 1rem; 
+        display: flex;
 
-            &:focus {
-                color: var(--purple);
-                border: none;
-                outline: 2px solid var(--purple);
+        .custom-select {
+            position: relative;
+
+            select {
+                width: 100%;
+                padding: 0 1rem;
+                margin-right: 1rem;
+                height: 2.5rem;
+                border-radius: 0.25rem 0 0 0.25rem;
+                border: 1px solid var(--gray-400);
+                border-right: none;
+                font-weight: 400;
+                font-size: 1rem; 
+
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+
+                &:focus {
+                    color: var(--purple);
+                    border: none;
+                    outline: 2px solid var(--purple);
+                }
+            }
+            
+            svg {
+                position: absolute;
+                display: block;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+                width: 2rem;
+                pointer-events: none;
             }
         }
 
@@ -209,6 +230,7 @@ export const FilterTable = styled.div`
             &:focus {
                 color: var(--purple);
                 border: none;
+                margin-left: 2px;
                 outline: 2px solid var(--purple);
             }
         }

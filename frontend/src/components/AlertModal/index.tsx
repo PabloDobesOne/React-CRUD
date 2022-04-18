@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import Modal from 'react-modal';
 import { useCrud } from '../../contexts/CrudContext';
 import { Container } from './styles';
+
+import { IoMdClose } from 'react-icons/io';
 
 
 export function AlertModal() {
@@ -32,6 +33,13 @@ export function AlertModal() {
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
+            <button
+                type='button'
+                onClick={() => {setIsAlertModalOpen(false)}}
+                className="react-modal-close"
+            >
+                <IoMdClose title='Fechar modal'/>
+            </button>
             <Container>
                 <h2>
                     Você tem certeza !

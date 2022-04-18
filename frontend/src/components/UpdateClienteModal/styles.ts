@@ -51,3 +51,38 @@ export const Container = styled.form`
         }
     }
 `;
+
+export const CustomSelect = styled.div`
+    position: relative;
+
+    select {
+        width: 100%;
+        padding: 0 1.5rem;
+        height: 4rem;
+        border-radius: 0.25rem;
+        border: 1px solid var(--gray-400);
+        font-weight: 400;
+        font-size: 1rem;
+
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+
+        &:focus {
+            color: var(--purple);
+            border: none;
+            outline: 1px solid var(--purple);
+        }
+    }
+
+    svg {
+        position: absolute;
+        display: block;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 4rem;
+        /* background: red; */
+        pointer-events: none;
+    }
+`;

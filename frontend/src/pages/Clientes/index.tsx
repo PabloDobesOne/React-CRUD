@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { MainContainer } from "../../components/MainContainer";
 import { useCrud } from "../../contexts/CrudContext";
 import { listFiltersCidade, listFiltersClientes } from "../../data/filters";
-import { formateDate } from "../../utils/formateDate";
 import { Container, FilterTable, InformationContainer, MessageTableEmpty, TableData } from "./styles";
 
 import { FaArrowDown } from 'react-icons/fa';

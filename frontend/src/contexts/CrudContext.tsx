@@ -149,7 +149,7 @@ export function CrudProvider({ children }: CrudProviderProps) {
         try {
             const cidadeHasClienteIndexed = clientesData.find(cliente => cliente.CIDADE_ID === idCidade);
 
-            if (cidadeHasClienteIndexed) throw new Error("Erro: cidade possui clientes indexados");
+            if (cidadeHasClienteIndexed) throw new Error("Erro: não pode excluir cidade, pois possui clientes vinculados");
 
             await api.delete(`/cidades/${idCidade}`);
             

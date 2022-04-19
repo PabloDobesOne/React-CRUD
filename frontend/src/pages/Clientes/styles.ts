@@ -97,6 +97,17 @@ export const TableData = styled.table`
                 justify-content: center;
             }
 
+            input[type="date"] {
+                border: none;
+                max-width: 5.9rem;
+                outline: none;
+                font-size: 1rem;
+
+                &::-webkit-calendar-picker-indicator {
+                    display: none;
+                }
+            }
+
             button {
                 height: 2.5rem;
                 padding: 0 1.5rem;
@@ -228,6 +239,7 @@ export const FilterTable = styled.div`
                 right: 0;
                 transform: translateY(-50%);
                 width: 2rem;
+                color: var(--purple);
                 pointer-events: none;
             }
         }

@@ -12,7 +12,7 @@ export class UpdateClienteController {
         const result = await service.execute({
             CLI_ID: Number(CLI_ID),
             CLI_NOME,
-            CLI_NASCIDO: new Date(CLI_NASCIDO),
+            CLI_NASCIDO: CLI_NASCIDO,
             CIDADE_ID
         });
 

@@ -36,20 +36,21 @@ export function Cidades() {
         if (filterValue.trim() === '') return setCidades(cidadesData);
 
         let updatedCidades = cidadesData;
+        let filterValueFormated = filterValue.trim()
 
         if(filterOption === 1) {
-            updatedCidades = cidadesData.filter(cidade => cidade.CIDADE_ID === Number(filterValue))
+            updatedCidades = cidadesData.filter(cidade => cidade.CIDADE_ID === Number(filterValueFormated))
         }
 
         if(filterOption === 2) {
             updatedCidades = cidadesData.filter(cidade => 
-                cidade.CIDADE_NOME.toLocaleLowerCase() === filterValue.toLocaleLowerCase()
+                cidade.CIDADE_NOME.toLocaleLowerCase() === filterValueFormated.toLocaleLowerCase()
             )
         }
 
         if(filterOption === 3) {
             updatedCidades = cidadesData.filter(cidade => 
-                cidade.CIDADE_UF.toLocaleUpperCase() === filterValue.toLocaleUpperCase()
+                cidade.CIDADE_UF.toLocaleUpperCase() === filterValueFormated.toLocaleUpperCase().trim()
             )           
         }
 

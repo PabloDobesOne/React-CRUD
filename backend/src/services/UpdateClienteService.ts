@@ -5,7 +5,7 @@ import { Cliente } from "../entities/Clientes";
 type ClienteUpdateRequest= {
     CLI_ID: number;
     CLI_NOME: string;
-    CLI_NASCIDO: Date;
+    CLI_NASCIDO: string;
     CIDADE_ID: number;
 }
 

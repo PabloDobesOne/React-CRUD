@@ -10,7 +10,7 @@ export class Cliente {
     CLI_NOME: string;
 
     @Column({type: "date"})
-    CLI_NASCIDO: Date;
+    CLI_NASCIDO: Date | string;
 
     @Column()
     CIDADE_ID: number;

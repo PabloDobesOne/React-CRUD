@@ -10,7 +10,7 @@ export class CreateClienteController {
 
         const result = await service.execute({
             CLI_NOME,
-            CLI_NASCIDO: new Date(CLI_NASCIDO),
+            CLI_NASCIDO: CLI_NASCIDO,
             CIDADE_ID: Number(CIDADE_ID)
         });
 

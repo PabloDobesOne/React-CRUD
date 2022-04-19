@@ -26,7 +26,6 @@ export function NewCreateClienteModal() {
         async function loadData() {
             try {
                 await api.get('/cidades').then(response => setIdCidade(response.data[0].CIDADE_ID));
-                console.log(idCidade)
             } catch(error) {
                 console.log(error);
             }
@@ -54,13 +53,23 @@ export function NewCreateClienteModal() {
     return (
         <Modal
             isOpen={isModalCreateClienteOpen}
-            onRequestClose={() => {setIsModalCreateClienteOpen(false)}}
+            onRequestClose={() => {
+                setIsModalCreateClienteOpen(false)
+                setNameCliente('');
+                setBirthCliente('');
+                setIdCidade(cidadesData[0].CIDADE_ID);
+            }}
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
             <button
                 type='button'
-                onClick={() => {setIsModalCreateClienteOpen(false)}}
+                onClick={() => {
+                    setIsModalCreateClienteOpen(false)
+                    setNameCliente('');
+                    setBirthCliente('');
+                    setIdCidade(cidadesData[0].CIDADE_ID);            
+                }}
                 className="react-modal-close"
             >
                 <IoMdClose title='Fechar modal'/>
@@ -81,15 +90,13 @@ export function NewCreateClienteModal() {
                 />
                 <input 
                     type="date"
-                    placeholder='Data de nascimento (mm/dd/yyyy)'
-                    title='Data de nascimento (mm/dd/yyyy)'
+                    placeholder='dd/mm/yyyy'
+                    title='dd/mm/yyyy'
                     value={birthCliente}
                     onChange={(event) => {
-                        setBirthCliente(event.target.value)
-                    }} 
+                        setBirthCliente(event.target.value)                      
+                    }}
                     required
-                    minLength={10}
-                    maxLength={10}
                 />
 
                 <CustomSelect>

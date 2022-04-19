@@ -214,6 +214,7 @@ export const FilterTable = styled.div`
                 right: 0;
                 transform: translateY(-50%);
                 width: 2rem;
+                color: var(--purple);
                 pointer-events: none;
             }
         }

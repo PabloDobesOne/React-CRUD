@@ -187,6 +187,7 @@ export function CrudProvider({ children }: CrudProviderProps) {
             });
 
             await getCidadesData();
+            await getClientesData();
 
             console.log('Cidade atualizada')
 

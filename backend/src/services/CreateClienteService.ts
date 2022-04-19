@@ -4,7 +4,7 @@ import { Cliente } from "../entities/Clientes";
 
 type ClienteRequest = {
     CLI_NOME: string;
-    CLI_NASCIDO: Date;
+    CLI_NASCIDO: string;
     CIDADE_ID: number;
 }
 

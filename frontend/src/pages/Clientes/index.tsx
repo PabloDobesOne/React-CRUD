@@ -35,26 +35,27 @@ export function Clientes() {
         if (filterValue.trim() === '') return setClientes(clientesData);
 
         let updatedClientes = clientesData;
+        let filterValueFormated = filterValue.trim()
 
         if(filterOption === 1) {
-            updatedClientes = clientesData.filter(cliente => cliente.CLI_ID === Number(filterValue))
+            updatedClientes = clientesData.filter(cliente => cliente.CLI_ID === Number(filterValueFormated))
         }
 
         if(filterOption === 2) {
             updatedClientes = clientesData.filter(cliente => 
-                cliente.CLI_NOME.toLocaleLowerCase() === filterValue.toLocaleLowerCase()
+                cliente.CLI_NOME.toLocaleLowerCase() === filterValueFormated.toLocaleLowerCase()
             )
         }
 
         if(filterOption === 3) {
             updatedClientes = clientesData.filter(cliente => 
-                cliente.CIDADE.CIDADE_NOME.toLocaleUpperCase() === filterValue.toLocaleUpperCase()
+                cliente.CIDADE.CIDADE_NOME.toLocaleUpperCase() === filterValueFormated.toLocaleUpperCase()
             )           
         }
 
         if(filterOption === 4) {
             updatedClientes = clientesData.filter(cliente => 
-                cliente.CIDADE.CIDADE_UF.toLocaleUpperCase() === filterValue.toLocaleUpperCase()
+                cliente.CIDADE.CIDADE_UF.toLocaleUpperCase() === filterValueFormated.toLocaleUpperCase()
             )           
         }
 
@@ -131,9 +132,12 @@ export function Clientes() {
                                         <td data-title="ID">{cliente.CLI_ID}</td>
                                         <td data-title="NOME">{cliente.CLI_NOME}</td>
                                         <td data-title="NASCIDO">
-                                            {
-                                               formateDate(cliente.CLI_NASCIDO)                                              
-                                            }
+                                            <input 
+                                                type="date"
+                                                title="Data de aniversário"
+                                                readOnly 
+                                                value={cliente.CLI_NASCIDO}                                                
+                                            />
                                         </td>
                                         <td data-title="CIDADE">{cliente.CIDADE.CIDADE_NOME}</td>
                                         <td data-title="UF">{cliente.CIDADE.CIDADE_UF}</td>

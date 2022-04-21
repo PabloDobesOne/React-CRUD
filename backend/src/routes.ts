@@ -3,7 +3,6 @@ import { CreateCidadeController } from './controllers/CreateCidadeController';
 import { CreateClienteController } from './controllers/CreateClienteController';
 import { DeleteCidadeController } from './controllers/DeleteCidadeController';
 import { DeleteClienteController } from './controllers/DeleteClienteController';
-import { FilterCidadeController } from './controllers/FilterCidadeController';
 import { GetAllCidadesController } from './controllers/GetAllCidadesController';
 import { GetAllClientesController } from './controllers/GetAllClientesController';
 import { GetOneCidadeController } from './controllers/GetOneCidadeController';
@@ -28,15 +27,14 @@ routes.post('/cidades',
 routes.get('/cidades', new GetAllCidadesController().handle);
 routes.get('/cidades/:CIDADE_ID', new GetOneCidadeController().handle);
 routes.delete('/cidades/:CIDADE_ID', new DeleteCidadeController().handle);
-routes.put('/cidades/:CIDADE_ID', 
+routes.put('/cidades/:CIDADE_ID',
     updateCidadeValidationsRules(),
     validatorUpdateCidade,
     new UpdateCidadeController().handle
 );
-// routes.get('/cidades/filter', new FilterCidadeController().handle);
 
 
-routes.post('/clientes', 
+routes.post('/clientes',
     createClienteValidatorRules(),
     validatorCreateCliente,
     new CreateClienteController().handle
@@ -44,7 +42,7 @@ routes.post('/clientes',
 routes.get('/clientes', new GetAllClientesController().handle);
 routes.get('/clientes/:CLI_ID', new GetOneClienteController().handle);
 routes.delete('/clientes/:CLI_ID', new DeleteClienteController().handle);
-routes.put('/clientes/:CLI_ID', 
+routes.put('/clientes/:CLI_ID',
     updateClienteValidatorRules(),
     validatorUpdateCliente,
     new UpdateClienteController().handle

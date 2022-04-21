@@ -8,7 +8,11 @@ export class GetAllCidadesService {
         const repo = getRepository(Cidade);
 
         // pegando todas as cidades
-        const cidades = repo.find();
+        const cidades = repo.find({
+            order: {
+                CIDADE_NOME: 'ASC'
+            }
+        });
 
         return cidades
     }

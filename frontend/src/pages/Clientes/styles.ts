@@ -20,6 +20,9 @@ export const InformationContainer = styled.div`
     justify-content: space-between;
 
     h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         text-transform: uppercase;
         color: var(--purple);
     }
@@ -271,6 +274,8 @@ export const FilterTable = styled.div`
 
     .buttons {
         display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 1rem;
 
         button {

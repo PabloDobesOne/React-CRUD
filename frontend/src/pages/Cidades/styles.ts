@@ -20,6 +20,9 @@ export const InformationContainer = styled.div`
     justify-content: space-between;
 
     h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         text-transform: uppercase;
         color: var(--purple);
     }
@@ -169,6 +172,14 @@ export const TableData = styled.table`
             color: var(--purple);
         }
     }
+
+    @media screen and (max-width: 500px) {
+        td[data-title="CIDADE"] {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+    }
 `;
 
 export const FilterTable = styled.div`
@@ -246,6 +257,8 @@ export const FilterTable = styled.div`
 
     .buttons {
         display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 1rem;
 
         button {

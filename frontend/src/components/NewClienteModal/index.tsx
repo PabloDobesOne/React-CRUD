@@ -11,11 +11,11 @@ import { api } from '../../services/api';
 Modal.setAppElement('#root')
 
 export function NewCreateClienteModal() {
-   const { 
-       isModalCreateClienteOpen, 
-       setIsModalCreateClienteOpen, 
-       createCliente,
-       cidadesData
+    const {
+        isModalCreateClienteOpen,
+        setIsModalCreateClienteOpen,
+        createCliente,
+        cidadesData
     } = useCrud();
 
     const [nameCliente, setNameCliente] = useState('');
@@ -26,7 +26,7 @@ export function NewCreateClienteModal() {
         async function loadData() {
             try {
                 await api.get('/cidades').then(response => setIdCidade(response.data[0].CIDADE_ID));
-            } catch(error) {
+            } catch (error) {
                 console.log(error);
             }
         }
@@ -68,56 +68,62 @@ export function NewCreateClienteModal() {
                     setIsModalCreateClienteOpen(false)
                     setNameCliente('');
                     setBirthCliente('');
-                    setIdCidade(cidadesData[0].CIDADE_ID);            
+                    setIdCidade(cidadesData[0].CIDADE_ID);
                 }}
                 className="react-modal-close"
             >
-                <IoMdClose title='Fechar modal'/>
+                <IoMdClose title='Fechar modal' />
             </button>
-            
+
             <Container onSubmit={handleCreateNewCliente}>
                 <h2>Cadastrar cliente</h2>
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     placeholder='Nome do cliente'
                     title='Nome do cliente'
                     value={nameCliente}
-                    onChange={(event) => setNameCliente(event.target.value)} 
+                    onChange={(event) => setNameCliente(event.target.value)}
                     required
                     minLength={3}
                     maxLength={50}
                     pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$"
                 />
-                <input 
+                <input
                     type="date"
                     placeholder='dd/mm/yyyy'
                     title='dd/mm/yyyy'
                     value={birthCliente}
                     onChange={(event) => {
-                        setBirthCliente(event.target.value)                      
+                        setBirthCliente(event.target.value)
                     }}
                     required
                 />
 
                 <CustomSelect>
                     <select
-                        value={idCidade} 
+                        value={idCidade}
                         onChange={event => setIdCidade(Number(event.target.value))}
                         title="Cidade do cliente"
                     >
                         {cidadesData.map((cidade) => {
-                                return (
-                                    <option value={cidade.CIDADE_ID} key={cidade.CIDADE_ID}>
-                                        {cidade.CIDADE_NOME} - {cidade.CIDADE_UF}
-                                    </option>
-                                )                                                                  
-                            }                                                                                                                                                    
+                            return (
+                                <option value={cidade.CIDADE_ID} key={cidade.CIDADE_ID}>
+                                    {cidade.CIDADE_NOME} - {cidade.CIDADE_UF}
+                                </option>
+                            )
+                        }
                         )}
                     </select>
                     <FaArrowDown />
                 </CustomSelect>
-                
-                <button type="submit">
+
+                <button
+                    type="submit"
+                    onClick={() => {
+                        setNameCliente(nameCliente.trim())
+                        setBirthCliente(birthCliente.trim())
+                    }}
+                >
                     Cadastrar
                 </button>
             </Container>

@@ -11,8 +11,8 @@ export function UpdateClienteModal() {
     const {
         isModalUpdateClientesOpen,
         setIsModalUpdateClientesOpen,
-        updateCliente, 
-        currentCliente, 
+        updateCliente,
+        currentCliente,
         setCurrentCliente,
         cidadesData
     } = useCrud();
@@ -29,37 +29,37 @@ export function UpdateClienteModal() {
     return (
         <Modal
             isOpen={isModalUpdateClientesOpen}
-            onRequestClose={()=> setIsModalUpdateClientesOpen(false)}
+            onRequestClose={() => setIsModalUpdateClientesOpen(false)}
             overlayClassName="react-modal-overlay "
             className="react-modal-content"
         >
             <button
                 type='button'
-                onClick={() => {setIsModalUpdateClientesOpen(false)}}
+                onClick={() => { setIsModalUpdateClientesOpen(false) }}
                 className="react-modal-close"
             >
-                <IoMdClose title='Fechar modal'/>
+                <IoMdClose title='Fechar modal' />
             </button>
 
             <Container onSubmit={handleUpdateCliente}>
                 <h2>Atualizar cliente</h2>
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     placeholder='Nome do cliente'
                     title='Nome do cliente'
                     value={currentCliente.CLI_NOME}
                     onChange={(event) => setCurrentCliente({
                         ...currentCliente,
                         CLI_NOME: event.target.value
-                    })} 
+                    })}
                     required
                     minLength={3}
                     maxLength={50}
                     pattern="[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$"
                 />
 
-                <input 
-                    type="date" 
+                <input
+                    type="date"
                     placeholder='Data de nascimento (mm/dd/yyyy)'
                     title='Data de nascimento (mm/dd/yyyy)'
                     value={currentCliente.CLI_NASCIDO}
@@ -73,8 +73,8 @@ export function UpdateClienteModal() {
                 />
 
                 <CustomSelect>
-                    <select 
-                        value={currentCliente.CIDADE_ID} 
+                    <select
+                        value={currentCliente.CIDADE_ID}
                         onChange={event => setCurrentCliente({
                             ...currentCliente,
                             CIDADE_ID: Number(event.target.value)
@@ -82,20 +82,26 @@ export function UpdateClienteModal() {
                         title="Cidade do cliente"
                     >
                         {cidadesData.map((cidade) => {
-                                return (
-                                    <option value={cidade.CIDADE_ID} key={cidade.CIDADE_ID}>
-                                        {cidade.CIDADE_NOME} - {cidade.CIDADE_UF}
-                                    </option>
-                                )                                                                  
-                            }                                                                                                                                                    
+                            return (
+                                <option value={cidade.CIDADE_ID} key={cidade.CIDADE_ID}>
+                                    {cidade.CIDADE_NOME} - {cidade.CIDADE_UF}
+                                </option>
+                            )
+                        }
                         )}
                     </select>
                     <FaArrowDown />
                 </CustomSelect>
 
-
-                
-                <button type="submit">
+                <button
+                    type="submit"
+                    onClick={() => {
+                        setCurrentCliente({
+                            ...currentCliente,
+                            CLI_NOME: currentCliente.CLI_NOME.trim()
+                        })
+                    }}
+                >
                     Atualizar
                 </button>
             </Container>

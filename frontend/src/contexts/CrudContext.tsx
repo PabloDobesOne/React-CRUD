@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ErrorInfo, ReactNode, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "../services/api";
 
@@ -9,7 +9,7 @@ interface CrudContextData {
 
     cidadesData: CidadesData[];
     clientesData: ClientesData[];
-    
+
 
     createCidade: (newCidade: CidadesInput) => Promise<void>;
     deleteCidade: (idCidade: number) => Promise<void>;
@@ -51,7 +51,7 @@ interface CidadesData {
     CIDADE_UF: string;
 }
 
-type CidadesInput  = Omit<CidadesData, 'CIDADE_ID'>;
+type CidadesInput = Omit<CidadesData, 'CIDADE_ID'>;
 
 interface ClientesData {
     CLI_ID: number;
@@ -82,7 +82,7 @@ export const CrudContext = createContext<CrudContextData>({} as CrudContextData)
 /* ===== PROVIDER ===== */
 export function CrudProvider({ children }: CrudProviderProps) {
     const [nameLogo, setNameLogo] = useState<string>('React CRUD');
-    
+
     // STATES CIDADES
     const [cidadesData, setCidadesData] = useState<CidadesData[]>([]);
     const [isModalCreateCidadeOpen, setIsModalCreateCidadeOpen] = useState<boolean>(false);
@@ -103,7 +103,7 @@ export function CrudProvider({ children }: CrudProviderProps) {
             await getCidadesData();
             await getClientesData();
         }
-        getDatas();  
+        getDatas();
     }, [])
 
     function changeNameLogo(newName: string) {
@@ -116,20 +116,29 @@ export function CrudProvider({ children }: CrudProviderProps) {
     async function getCidadesData() {
         try {
             await api.get<CidadesData[]>('/cidades').then(response => setCidadesData(response.data));
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     }
 
     async function createCidade(newCidade: CidadesInput) {
         try {
-            const cidadeAlreadyExists = 
-                cidadesData.find(cidade => cidade.CIDADE_NOME.toLocaleUpperCase() === newCidade.CIDADE_NOME.toLocaleUpperCase()) && 
-                cidadesData.find(cidade => cidade.CIDADE_UF.toLocaleUpperCase() === newCidade.CIDADE_UF.toLocaleUpperCase());
+            const cidadeAlreadyExists =
+                cidadesData.find(cidade =>
+                    cidade.CIDADE_NOME.toLocaleUpperCase() === newCidade.CIDADE_NOME.toLocaleUpperCase()
+                    &&
+                    cidade.CIDADE_UF.toLocaleUpperCase() === newCidade.CIDADE_UF.toLocaleUpperCase()
+                );
 
-            if (cidadeAlreadyExists) throw new Error("Erro: cidade já cadastrada");
+            if (cidadeAlreadyExists) throw new Error("Cidade já cadastrada");
 
             newCidade.CIDADE_UF = newCidade.CIDADE_UF.toLocaleUpperCase();
+            //Expressão regular para deixar maiúscula a primeira letra de cada palavra
+            newCidade.CIDADE_NOME = newCidade.CIDADE_NOME.replace(/\w\S*/g, (w) => (
+                w.replace(/^\w/,
+                    (c) => c.toUpperCase()
+                )
+            ));
 
             await api.post('/cidades', {
                 ...newCidade
@@ -138,50 +147,59 @@ export function CrudProvider({ children }: CrudProviderProps) {
             await getCidadesData();
 
             toast.success('Cidade criada com sucesso!');
-        } catch(error:any) {
+        } catch (error: any) {
             console.log(error);
-            toast.error(error.message || 'Erro ao criar cidade!');
+            toast.error(error.message || 'Ocorreu um problema ao criar a cidade! Verifique os dados inseridos');
         }
-        
+
     }
 
     async function deleteCidade(idCidade: number) {
         try {
             const cidadeHasClienteIndexed = clientesData.find(cliente => cliente.CIDADE_ID === idCidade);
 
-            if (cidadeHasClienteIndexed) throw new Error("Erro: não pode excluir cidade, pois possui clientes vinculados");
+            if (cidadeHasClienteIndexed) throw new Error("Não pode excluir cidade, pois possui clientes vinculados");
 
             await api.delete(`/cidades/${idCidade}`);
-            
+
             const cidadesUpdated = cidadesData.filter(cidade => cidade.CIDADE_ID !== idCidade)
-    
-            if(cidadesUpdated) {
+
+            if (cidadesUpdated) {
                 setCidadesData([
                     ...cidadesUpdated
                 ])
             }
 
             toast.success('Cidade deletada com sucesso!');
-            
-        } catch(error: any) {
+
+        } catch (error: any) {
             console.log(error);
-            toast.error(error.message || 'Erro ao deletar cidade!');
-            
+            toast.error(error.message || 'Ocorreu um problema ao deletar cidade! Verifique os dados da cidade');
+
         }
-        
+
     }
 
     async function updateCidade(idCidade: number, updatedCidade: CidadesData) {
         try {
 
-            const cidadeAlreadyExists = 
-            cidadesData.find(cidade => cidade.CIDADE_NOME.toLocaleUpperCase() === updatedCidade.CIDADE_NOME.toLocaleUpperCase()) && 
-            cidadesData.find(cidade => cidade.CIDADE_UF.toLocaleUpperCase() === updatedCidade.CIDADE_UF.toLocaleUpperCase());
+            const cidadeAlreadyExists =
+                cidadesData.find(cidade =>
+                    cidade.CIDADE_NOME.toLocaleUpperCase() === updatedCidade.CIDADE_NOME.toLocaleUpperCase()
+                    &&
+                    cidade.CIDADE_UF.toLocaleUpperCase() === updatedCidade.CIDADE_UF.toLocaleUpperCase()
+                );
 
-            if (cidadeAlreadyExists) throw new Error("Erro: cidade já cadastrada");
+
+            if (cidadeAlreadyExists) throw new Error("Cidade já cadastrada");
 
             updatedCidade.CIDADE_UF = updatedCidade.CIDADE_UF.toLocaleUpperCase();
-            
+            updatedCidade.CIDADE_NOME = updatedCidade.CIDADE_NOME.replace(/\w\S*/g, (w) => (
+                w.replace(/^\w/,
+                    (c) => c.toUpperCase()
+                )
+            ));
+
             await api.put(`/cidades/${idCidade}`, {
                 ...updatedCidade
             });
@@ -194,9 +212,9 @@ export function CrudProvider({ children }: CrudProviderProps) {
             toast.success('Cidade atualizada com sucesso!');
 
 
-        } catch(error: any) {
+        } catch (error: any) {
             console.log(error);
-            toast.error(error.message || 'Erro ao atualizar cidade!');
+            toast.error(error.message || 'Ocorreu um problema ao atualizar cidade! Verifique os dados inseridos');
         }
     }
 
@@ -206,13 +224,20 @@ export function CrudProvider({ children }: CrudProviderProps) {
     async function getClientesData() {
         try {
             await api.get<ClientesData[]>('/clientes').then(response => setClientesData(response.data));
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     }
 
     async function createCliente(newCliente: ClientesInput) {
         try {
+
+            newCliente.CLI_NOME = newCliente.CLI_NOME.replace(/\w\S*/g, (w) => (
+                w.replace(/^\w/,
+                    (c) => c.toUpperCase()
+                )
+            ));
+
             await api.post('/clientes', {
                 ...newCliente
             });
@@ -221,14 +246,20 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
             toast.success('Cliente criado com sucesso!');
 
-        } catch(error) {
+        } catch (error: any) {
             console.log(error)
-            toast.error(`Erro ao criar cliente!`);
+            toast.error(error.message || 'Ocorreu um problema ao criar cliente! Verifique os dados inseridos');
         }
     }
 
     async function updateCliente(idCliente: number, updatedCliente: ClientesInput) {
         try {
+            updatedCliente.CLI_NOME = updatedCliente.CLI_NOME.replace(/\w\S*/g, (w) => (
+                w.replace(/^\w/,
+                    (c) => c.toUpperCase()
+                )
+            ));
+
             await api.put(`/clientes/${idCliente}`, {
                 ...updatedCliente
             });
@@ -239,9 +270,9 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
             toast.success('Cliente atualizado com sucesso');
 
-        } catch(error) {
+        } catch (error: any) {
             console.log(error);
-            toast.error('Erro ao atualizar cliente');
+            toast.error(error.message || 'Ocorreu um problema ao atualizar cliente! Verifique os dados inseridos');
         }
     }
 
@@ -250,8 +281,8 @@ export function CrudProvider({ children }: CrudProviderProps) {
             await api.delete(`/clientes/${idCliente}`);
 
             const clientesUpdated = clientesData.filter(cliente => cliente.CLI_ID !== idCliente)
-    
-            if(clientesUpdated) {
+
+            if (clientesUpdated) {
                 setClientesData([
                     ...clientesUpdated
                 ])
@@ -259,9 +290,9 @@ export function CrudProvider({ children }: CrudProviderProps) {
 
             toast.success('Cliente deletado com sucesso!');
 
-        } catch(error) {
+        } catch (error) {
             console.log(error)
-            toast.error("Erro ao deletar cliente");
+            toast.error("Ocorreu um problema ao deletar cliente! Verifique os dados do cliente");
         }
     }
 
@@ -272,26 +303,26 @@ export function CrudProvider({ children }: CrudProviderProps) {
             cidadesData,
             clientesData,
             createCidade,
-            deleteCidade, 
+            deleteCidade,
             updateCidade,
             createCliente,
             updateCliente,
             deleteCliente,
             isModalCreateCidadeOpen,
             setIsModalCreateCidadeOpen,
-            isModalCreateClienteOpen, 
+            isModalCreateClienteOpen,
             setIsModalCreateClienteOpen,
-            isModalUpdateCidadesOpen, 
+            isModalUpdateCidadesOpen,
             setIsModalUpdateCidadesOpen,
-            isModalUpdateClientesOpen, 
+            isModalUpdateClientesOpen,
             setIsModalUpdateClientesOpen,
             currentCidade,
-            setCurrentCidade, 
+            setCurrentCidade,
             currentCliente,
             setCurrentCliente,
-            isAlertModalOpen, 
+            isAlertModalOpen,
             setIsAlertModalOpen,
-            actionModalAlert, 
+            actionModalAlert,
             setActionModalAlert
         }}>
             {children}
